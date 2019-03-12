@@ -1,7 +1,6 @@
-package cn.Skyfalls.RCNB;
+package xyz.Skyfalls.RCNB;
 
-import cn.Skyfalls.RCNB.Exceptions.NotEnoughNBException;
-import cn.Skyfalls.RCNB.Exceptions.RCNBOverflowException;
+import xyz.Skyfalls.RCNB.Exceptions.RCNBOverflowException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +22,15 @@ public class RCNBEncoder {
     private static short _div(int a, int b){
         return (short) Math.floor(a / b);
     }
-    public static byte encodeByte(short i) throws RCNBOverflowException{
+    public static char[] encodeByte(short i) throws RCNBOverflowException{
         if(i > 0xFF) throw new RCNBOverflowException();
         if(i > 0x7F){
             short value = (short) (i & 0x7F);
-            return (byte) (cn.charAt(_div(value, sb)) + cb.charAt(value % sb));
+            char result[]={cn.charAt(_div(value, sb)),cb.charAt(value % sb)};
+            return result;
         }
-        return (byte) (cr.charAt(_div(i, sc)) + cc.charAt(i % sc));
+        char result[]={cr.charAt(_div(i, sc)),cc.charAt(i % sc)};
+        return result;
     }
     public static char[] encodeShort(int value) throws RCNBOverflowException{
         if(value > 0xFFFF) throw new RCNBOverflowException();
@@ -56,8 +57,7 @@ public class RCNBEncoder {
         }
         //encode every 2 bytes
         for (int i = 0; i < (bytes.size() >> 1); i++) {
-            System.out.println(bytes.get(i));
-            sb.append(new String(encodeShort(((bytes.get(i * 2) << 8)) | bytes.get(i * 2 + 1))));
+            sb.append(encodeShort(((bytes.get(i * 2) << 8)) | bytes.get(i * 2 + 1)));
         }
         if ((bytes.size() & 1)== 1) sb.append(encodeByte(bytes.get(bytes.size() - 1)));
         return sb.toString();

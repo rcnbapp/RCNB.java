@@ -1,4 +1,4 @@
-package cn.Skyfalls.RCNB.Exceptions;
+package xyz.Skyfalls.RCNB.Exceptions;
 
 public class NotEnoughNBException extends Exception{
     public NotEnoughNBException(){
