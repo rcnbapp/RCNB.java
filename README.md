@@ -10,7 +10,7 @@ See also: [librcnb](https://github.com/rcnbapp/librcnb) [RCNB.php](https://githu
 |           | Base64       | RCNB                                                          |
 |-----------|--------------|---------------------------------------------------------------|
 | Speed     | ❌ Fast       | ✔️ Slow, motivate Intel to improve their CPU                   |
-| Printable | ❌ On all OS  | ✔️ Only on newer OS, motivate users to upgrade their legacy OS |
+| Printable | ❌ On all OS  | ✔️ Jvm supports almost all os! |
 | Niubility | ❌ Not at all | ✔️ RCNB!                                                     |
 | Example   | QmFzZTY0Lg== | ȐĉņþƦȻƝƃŔć                                                    |
 
