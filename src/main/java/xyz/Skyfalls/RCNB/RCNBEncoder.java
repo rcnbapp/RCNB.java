@@ -22,16 +22,18 @@ public class RCNBEncoder {
     private static short _div(int a, int b){
         return (short) Math.floor(a / b);
     }
+
     public static char[] encodeByte(short i) throws RCNBOverflowException{
         if(i > 0xFF) throw new RCNBOverflowException();
         if(i > 0x7F){
             short value = (short) (i & 0x7F);
-            char result[]={cn.charAt(_div(value, sb)),cb.charAt(value % sb)};
+            char result[] = {cn.charAt(_div(value, sb)), cb.charAt(value % sb)};
             return result;
         }
-        char result[]={cr.charAt(_div(i, sc)),cc.charAt(i % sc)};
+        char result[] = {cr.charAt(_div(i, sc)), cc.charAt(i % sc)};
         return result;
     }
+
     public static char[] encodeShort(int value) throws RCNBOverflowException{
         if(value > 0xFFFF) throw new RCNBOverflowException();
         boolean reverse = false;
@@ -41,8 +43,8 @@ public class RCNBEncoder {
             i = i & 0x7FFF;
         }
         char chars[] = {cr.charAt(_div(i, scnb)), cc.charAt(_div(i % scnb, snb)), cn.charAt(_div(i % snb, sb)), cb.charAt((i % sb))};
-        if (reverse) {
-            char results[]={chars[2],chars[3],chars[0],chars[1]};
+        if(reverse){
+            char results[] = {chars[2], chars[3], chars[0], chars[1]};
             return results;
         }
         return chars;
@@ -51,15 +53,15 @@ public class RCNBEncoder {
     public static String encode(String s) throws RCNBOverflowException{
         StringBuilder sb = new StringBuilder();
         byte _bytes[] = s.getBytes();
-        List<Short> bytes=new ArrayList<Short>(_bytes.length);
-        for(int i=0;i<_bytes.length;i++){
-            bytes.add((short) (_bytes[i]& 0xFF));
+        List<Short> bytes = new ArrayList<Short>(_bytes.length);
+        for (int i = 0; i < _bytes.length; i++) {
+            bytes.add((short) (_bytes[i] & 0xFF));
         }
         //encode every 2 bytes
         for (int i = 0; i < (bytes.size() >> 1); i++) {
             sb.append(encodeShort(((bytes.get(i * 2) << 8)) | bytes.get(i * 2 + 1)));
         }
-        if ((bytes.size() & 1)== 1) sb.append(encodeByte(bytes.get(bytes.size() - 1)));
+        if((bytes.size() & 1) == 1) sb.append(encodeByte(bytes.get(bytes.size() - 1)));
         return sb.toString();
     }
 }
