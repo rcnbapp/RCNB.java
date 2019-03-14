@@ -3,7 +3,7 @@
 The world is based on RC. Thus, everything can be encoded into RCNB.
 [![](https://www.jitpack.io/v/IsSkyfalls/RCNB.java.svg)](https://www.jitpack.io/#IsSkyfalls/RCNB.java)
 
-See also: [librcnb](https://github.com/rcnbapp/librcnb) [RCNB.php](https://github.com/rcnbapp/RCNB.php) [RCNB.js](https://github.com/rcnbapp/RCNB.js)
+RCNB is available in various languages: **Java** [JavaScript](https://github.com/rcnbapp/RCNB.js) [C](https://github.com/rcnbapp/librcnb) [PHP](https://github.com/rcnbapp/RCNB.php) [Pascal](https://github.com/rcnbapp/RCNB.pas) ([more..](https://github.com/rcnbapp/))
 
 ## Why RCNB?
 
