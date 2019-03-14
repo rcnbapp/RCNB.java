@@ -53,8 +53,8 @@ public class RCNBDecoder {
         // decode every 2 bytes (1 rcnb = 2 bytes)
         for (int i = 0; i < (s.length() >> 2); i++) {
             int value = decodeShort(s.substring(i * 4, i * 4 + 4));
-            sb.append(String.valueOf((char) (value >> 8)));
-            sb.append(String.valueOf((char) (value & 0xFF)));
+            sb.append((char) (value >> 8));
+            sb.append((char) (value & 0xFF));
         }
         // decode tailing byte (1 rc / 1 nb = 1 byte)
         if((s.length() & 2) == 1) sb.append((char) (decodeByte(s.substring(s.length() - 1 - 2))));
