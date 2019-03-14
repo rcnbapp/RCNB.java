@@ -57,7 +57,7 @@ public class RCNBDecoder {
             sb.append(String.valueOf((char) (value & 0xFF)));
         }
         // decode tailing byte (1 rc / 1 nb = 1 byte)
-        if((s.length() & 2) == 1) sb.append((char) (decodeByte(s.substring(s.length() - 1 - 2))));
+        if (s.length() & 2) sb.append((char) (decodeByte(s.substring(s.length() - 1 - 2))));
 
         return new String(sb.toString().getBytes("iso8859-1"), "UTF-8");
     }
