@@ -20,7 +20,7 @@ public class RCNBDecoder {
     private final static short snb = (short) (sn * sb);
     private final static short scnb = (short) (sc * snb);
 
-    public static byte decodeByte(String c) throws NotEnoughNBException{
+    public static char decodeByte(String c) throws NotEnoughNBException{
         boolean nb = false;
         int idx[] = {cr.indexOf(c.charAt(0)), cc.indexOf(c.charAt(1))};
         if(idx[0] < 0 || idx[1] < 0){
@@ -28,7 +28,7 @@ public class RCNBDecoder {
             nb = true;
         }
         if(idx[0] < 0 || idx[1] < 0) throw new NotEnoughNBException();
-        return (byte) (nb ? (idx[0] * sb + idx[1]) | 0x80 : idx[0] * sc + idx[1]);
+        return (char) (nb ? (idx[0] * sb + idx[1]) | 0x80 : idx[0] * sc + idx[1]);
     }
 
     public static int decodeShort(String c) throws NotEnoughNBException, RCNBOverflowException{
@@ -57,7 +57,7 @@ public class RCNBDecoder {
             sb.append((char) (value & 0xFF));
         }
         // decode tailing byte (1 rc / 1 nb = 1 byte)
-        if((s.length() & 2) == 1) sb.append((char) (decodeByte(s.substring(s.length() - 1 - 2))));
+        if((s.length() & 2) == 2) sb.append(decodeByte(s.substring(s.length() - 2)));
 
         return new String(sb.toString().getBytes("iso8859-1"), "UTF-8");
     }
