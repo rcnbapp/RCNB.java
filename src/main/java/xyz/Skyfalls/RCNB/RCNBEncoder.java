@@ -50,18 +50,21 @@ public class RCNBEncoder {
         return chars;
     }
 
+    public static String encode(Short[] bytes) throws RCNBOverflowException{
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < (bytes.length >> 1); i++) {
+            sb.append(encodeShort(((bytes[i * 2] << 8)) | bytes[i * 2 + 1]));
+        }
+        if((bytes.length & 1) == 1) sb.append(encodeByte(bytes[bytes.length - 1]));
+        return sb.toString();
+    }
+
     public static String encode(String s) throws RCNBOverflowException{
-        StringBuilder sb = new StringBuilder();
         byte _bytes[] = s.getBytes();
         List<Short> bytes = new ArrayList<Short>(_bytes.length);
         for (int i = 0; i < _bytes.length; i++) {
             bytes.add((short) (_bytes[i] & 0xFF));
         }
-        //encode every 2 bytes
-        for (int i = 0; i < (bytes.size() >> 1); i++) {
-            sb.append(encodeShort(((bytes.get(i * 2) << 8)) | bytes.get(i * 2 + 1)));
-        }
-        if((bytes.size() & 1) == 1) sb.append(encodeByte(bytes.get(bytes.size() - 1)));
-        return sb.toString();
+        return encode(bytes.toArray(new Short[bytes.size() - 1]));
     }
 }

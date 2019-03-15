@@ -5,6 +5,8 @@ import xyz.Skyfalls.RCNB.Exceptions.NotEnoughNBException;
 import xyz.Skyfalls.RCNB.Exceptions.RCNBOverflowException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RCNBDecoder {
     private final static String cr = "rRŔŕŖŗŘřƦȐȑȒȓɌɍ";
@@ -45,20 +47,28 @@ public class RCNBDecoder {
         return (idx[0] * scnb + idx[1] * snb + idx[2] * sb + idx[3]) | (reverse ? 0x8000 : 0);
     }
 
-    public static String decode(String s) throws LengthNotNBException, NotEnoughNBException, RCNBOverflowException, UnsupportedEncodingException{
+    public static Character[] decodeAsArray(String s) throws LengthNotNBException, NotEnoughNBException, RCNBOverflowException{
+        List<Character> chars = new ArrayList<Character>(s.length() / 2 + 1);
         if((s.length() & 1) == 1){
             throw new LengthNotNBException();
         }
-        StringBuilder sb = new StringBuilder();
+
         // decode every 2 bytes (1 rcnb = 2 bytes)
         for (int i = 0; i < (s.length() >> 2); i++) {
             int value = decodeShort(s.substring(i * 4, i * 4 + 4));
-            sb.append((char) (value >> 8));
-            sb.append((char) (value & 0xFF));
+            chars.add((char) (value >> 8));
+            chars.add((char) (value & 0xFF));
         }
         // decode tailing byte (1 rc / 1 nb = 1 byte)
-        if((s.length() & 2) == 2) sb.append(decodeByte(s.substring(s.length() - 2)));
+        if((s.length() & 2) == 2) chars.add(decodeByte(s.substring(s.length() - 2)));
+        return chars.toArray(new Character[chars.size() - 1]);
+    }
 
+    public static String decodeAsString(String s) throws LengthNotNBException, NotEnoughNBException, RCNBOverflowException, UnsupportedEncodingException{
+        StringBuilder sb = new StringBuilder();
+        for (char c : decodeAsArray(s)) {
+            sb.append(c);
+        }
         return new String(sb.toString().getBytes("iso8859-1"), "UTF-8");
     }
 }
