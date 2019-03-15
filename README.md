@@ -34,11 +34,11 @@ repository:
 dependency:
 
 ```xml
-	<dependency>
-	    <groupId>com.github.IsSkyfalls</groupId>
-	    <artifactId>RCNB.java</artifactId>
-	    <version>v1.0</version>
-	</dependency>
+<dependency>
+    <groupId>com.github.IsSkyfalls</groupId>
+    <artifactId>RCNB.java</artifactId>
+    <version>v1.1</version>
+</dependency>
 ```
 
 <br>
@@ -62,7 +62,7 @@ dependency:
 
 ```gradle
 dependencies {
-    implementation 'com.github.IsSkyfalls:RCNB.java:v1.0'
+    implementation 'com.github.IsSkyfalls:RCNB.java:v1.1'
 }
 ```
 
@@ -73,3 +73,4 @@ RCNBEncoder.encode("Who's NB?");
 //decode
 RCNBDecoder.decode("ȐȼŃƅȓčÑƄɌCňƀƦȻƝƃŖć");
 ```
+[**More**](https://github.com/rcnbapp/RCNB.java/blob/master/src/test/java/Main.java)
