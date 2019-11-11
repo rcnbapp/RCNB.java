@@ -1,6 +1,6 @@
-package xyz.Skyfalls.RCNB;
+package xyz.skyfalls.rcnb;
 
-import xyz.Skyfalls.RCNB.Exceptions.RCNBOverflowException;
+import xyz.skyfalls.rcnb.exceptions.RCNBOverflowException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +27,9 @@ public class RCNBEncoder {
         if(i > 0xFF) throw new RCNBOverflowException();
         if(i > 0x7F){
             short value = (short) (i & 0x7F);
-            char result[] = {cn.charAt(_div(value, sb)), cb.charAt(value % sb)};
-            return result;
+            return new char[]{cn.charAt(_div(value, sb)), cb.charAt(value % sb)};
         }
-        char result[] = {cr.charAt(_div(i, sc)), cc.charAt(i % sc)};
-        return result;
+        return new char[]{cr.charAt(_div(i, sc)), cc.charAt(i % sc)};
     }
 
     public static char[] encodeShort(int value) throws RCNBOverflowException{
@@ -42,16 +40,15 @@ public class RCNBEncoder {
             reverse = true;
             i = i & 0x7FFF;
         }
-        char chars[] = {cr.charAt(_div(i, scnb)), cc.charAt(_div(i % scnb, snb)), cn.charAt(_div(i % snb, sb)), cb.charAt((i % sb))};
+        char[] chars = {cr.charAt(_div(i, scnb)), cc.charAt(_div(i % scnb, snb)), cn.charAt(_div(i % snb, sb)), cb.charAt((i % sb))};
         if(reverse){
-            char results[] = {chars[2], chars[3], chars[0], chars[1]};
-            return results;
+            return new char[]{chars[2], chars[3], chars[0], chars[1]};
         }
         return chars;
     }
 
     public static String encode(Short[] bytes) throws RCNBOverflowException{
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < (bytes.length >> 1); i++) {
             sb.append(encodeShort(((bytes[i * 2] << 8)) | bytes[i * 2 + 1]));
         }
@@ -60,10 +57,10 @@ public class RCNBEncoder {
     }
 
     public static String encode(String s) throws RCNBOverflowException{
-        byte _bytes[] = s.getBytes();
+        byte[] _bytes = s.getBytes();
         List<Short> bytes = new ArrayList<Short>(_bytes.length);
-        for (int i = 0; i < _bytes.length; i++) {
-            bytes.add((short) (_bytes[i] & 0xFF));
+        for (byte aByte : _bytes) {
+            bytes.add((short) (aByte & 0xFF));
         }
         return encode(bytes.toArray(new Short[bytes.size() - 1]));
     }

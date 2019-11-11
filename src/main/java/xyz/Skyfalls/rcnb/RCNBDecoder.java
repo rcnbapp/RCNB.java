@@ -1,8 +1,8 @@
-package xyz.Skyfalls.RCNB;
+package xyz.skyfalls.rcnb;
 
-import xyz.Skyfalls.RCNB.Exceptions.LengthNotNBException;
-import xyz.Skyfalls.RCNB.Exceptions.NotEnoughNBException;
-import xyz.Skyfalls.RCNB.Exceptions.RCNBOverflowException;
+import xyz.skyfalls.rcnb.exceptions.LengthNotNBException;
+import xyz.skyfalls.rcnb.exceptions.NotEnoughNBException;
+import xyz.skyfalls.rcnb.exceptions.RCNBOverflowException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class RCNBDecoder {
 
     public static char decodeByte(String c) throws NotEnoughNBException{
         boolean nb = false;
-        int idx[] = {cr.indexOf(c.charAt(0)), cc.indexOf(c.charAt(1))};
+        int[] idx = {cr.indexOf(c.charAt(0)), cc.indexOf(c.charAt(1))};
         if(idx[0] < 0 || idx[1] < 0){
             idx = new int[]{cn.indexOf(c.charAt(0)), cb.indexOf(c.charAt(1))};
             nb = true;
@@ -34,7 +34,7 @@ public class RCNBDecoder {
     }
 
     public static int decodeShort(String c) throws NotEnoughNBException, RCNBOverflowException{
-        int idx[];
+        int[] idx;
         boolean reverse = cr.indexOf(c.charAt(0)) < 0;
         if(!reverse){
             idx = new int[]{cr.indexOf(c.charAt(0)), cc.indexOf(c.charAt(1)), cn.indexOf(c.charAt(2)), cb.indexOf(c.charAt(3))};
@@ -44,7 +44,7 @@ public class RCNBDecoder {
         if(idx[0] < 0 || idx[1] < 0 || idx[2] < 0 || idx[3] < 0) throw new NotEnoughNBException();
         int result = idx[0] * scnb + idx[1] * snb + idx[2] * sb + idx[3];
         if(result > 0x7FFF) throw new RCNBOverflowException();
-        return (idx[0] * scnb + idx[1] * snb + idx[2] * sb + idx[3]) | (reverse ? 0x8000 : 0);
+        return result | (reverse ? 0x8000 : 0);
     }
 
     public static Character[] decodeAsArray(String s) throws LengthNotNBException, NotEnoughNBException, RCNBOverflowException{

@@ -1,4 +1,4 @@
-package xyz.Skyfalls.RCNB.Exceptions;
+package xyz.skyfalls.rcnb.exceptions;
 
 public class RCNBOverflowException extends Exception {
     public RCNBOverflowException(){
